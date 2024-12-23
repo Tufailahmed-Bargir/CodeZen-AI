@@ -23,7 +23,7 @@ const RepositoryRow = ({
     <div
       className={cn(
         "p-4 lg:p-6 border-t border-[#D5D7DA] flex items-center justify-start hover:bg-[#F5F5F5] hover:cursor-pointer transition-all duration-200",
-        index == maxLength - 1 && "rounded-b-xl"
+        index == maxLength - 1 && "rounded-b-xl",
       )}
     >
       <div className="flex flex-col items-start gap-3">

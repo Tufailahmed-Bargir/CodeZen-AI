@@ -4,15 +4,10 @@ import { redirect } from "next/navigation";
 //   return session;
 // }
 export default async function Page() {
-
   // const session = await getSession();
-  if(true) {
-
+  if (true) {
     return redirect("/dashboard");
-  }else {
+  } else {
     return redirect("/login");
   }
-
-};
-
- 
+}

@@ -86,6 +86,4 @@ export default function SidebarRoutes() {
       </div>
     </div>
   );
-};
-
- 
+}

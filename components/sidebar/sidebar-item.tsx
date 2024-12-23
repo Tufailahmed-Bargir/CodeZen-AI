@@ -28,7 +28,7 @@ const SidebarItem = ({
       className={cn(
         "flex items-center justify-start gap-x-2 px-2 border-2 border-transparent",
         active == label &&
-          "bg-[#1570EF] text-[#FFFFFF] hover:bg-[#1570EF] border-2 border-blue-500/60"
+          "bg-[#1570EF] text-[#FFFFFF] hover:bg-[#1570EF] border-2 border-blue-500/60",
       )}
     >
       <div className="flex items-center justify-start gap-x-2">

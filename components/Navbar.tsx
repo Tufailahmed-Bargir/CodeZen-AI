@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { bottomRoutes, routes } from "./sidebar/Sidebar_routes";
 import UserDropdown from "./user-dropdown";
- 
 
 export default function Navbar() {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -57,6 +56,4 @@ export default function Navbar() {
       )}
     </div>
   );
-};
-
- 
+}

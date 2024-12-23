@@ -98,5 +98,4 @@ export default function RepositoiresList() {
       </div>
     </div>
   );
-};
- 
+}
