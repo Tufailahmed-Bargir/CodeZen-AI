@@ -1,44 +1,31 @@
-"use client";
-
-import { Dispatch, SetStateAction } from "react";
-import { LucideIcon } from "lucide-react";
-
-import { cn } from "../../lib/utils";
-import { Button } from "../ui/button";
+import { MouseEventHandler } from "react";
 
 interface SidebarItemProps {
-  icon: LucideIcon;
-  href: string;
-  label: string;
   active: string;
-  setActive: Dispatch<SetStateAction<string>>;
+  setActive: React.Dispatch<React.SetStateAction<string>>;
+  label: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  href: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>; // Add onClick prop
 }
 
-const SidebarItem = ({
-  icon: Icon,
-  label,
+const SidebarItem: React.FC<SidebarItemProps> = ({
   active,
-  setActive,
-}: SidebarItemProps) => {
+  // setActive,
+  label,
+  icon: Icon,
+  href,
+  onClick, // Destructure onClick
+}) => {
   return (
-    <Button
-      onClick={() => setActive(label)}
-      variant={"sidebar"}
-      size={"routes"}
-      className={cn(
-        "flex items-center justify-start gap-x-2 px-2 border-2 border-transparent",
-        active == label &&
-          "bg-[#1570EF] text-[#FFFFFF] hover:bg-[#1570EF] border-2 border-blue-500/60",
-      )}
+    <a
+      href={href}
+      onClick={onClick} // Use onClick here
+      className={`flex items-center gap-2 p-2 ${active === label ? "bg-blue-500 text-white" : ""}`}
     >
-      <div className="flex items-center justify-start gap-x-2">
-        <Icon
-          className={cn("text-[#414651]", active == label && "text-[#FFFFFF]")}
-        />
-
-        {label}
-      </div>
-    </Button>
+      <Icon className="w-6 h-6" />
+      <span>{label}</span>
+    </a>
   );
 };
 

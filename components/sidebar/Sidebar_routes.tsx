@@ -10,7 +10,7 @@ import {
   Phone,
   Settings,
 } from "lucide-react";
-
+import { signOut } from "next-auth/react"; // Import signOut from NextAuth
 import SidebarItem from "./sidebar-item";
 
 export const routes = [
@@ -51,6 +51,7 @@ export const bottomRoutes = [
     icon: LogOut,
     label: "Logout",
     href: "#",
+    onClick: () => signOut(), // Add onClick handler to logout
   },
 ];
 
@@ -81,6 +82,7 @@ export default function SidebarRoutes() {
             label={route.label}
             icon={route.icon}
             href={route.href}
+            onClick={route.onClick} // Pass the onClick function to SidebarItem
           />
         ))}
       </div>
