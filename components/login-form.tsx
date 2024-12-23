@@ -123,7 +123,7 @@ const LoginButton = ({
       if (res?.error) {
         console.error(res.error);
       } else {
-        router.push("/dashboard");
+        router.push("/");
       }
     }
     // Add handling for other providers (like bitbucket, azure-devops, etc.) if necessary.
