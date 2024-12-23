@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
-import Link from "next/link";
 
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 
@@ -48,24 +50,28 @@ const LoginForm = () => {
                 src={"/github.svg"}
                 alt="gh"
                 title={"Sign in with Github"}
+                provider="github"
               />
 
               <LoginButton
                 src={"/bitbucket.svg"}
                 alt="bb"
                 title={"Sign in with Bitbucket"}
+                provider="bitbucket"
               />
 
               <LoginButton
                 src={"/azure-devops.svg"}
                 alt="ad"
                 title={"Sign in with Azure DevOps"}
+                provider="azure-devops"
               />
 
               <LoginButton
                 src={"/gitlab.svg"}
                 alt="gl"
                 title={"Sign in with GitLab"}
+                provider="gitlab"
               />
             </div>
           </TabsContent>
@@ -79,12 +85,14 @@ const LoginForm = () => {
                 src={"/gitlab.svg"}
                 alt="gl"
                 title={"Self Hosted GitLab"}
+                provider="gitlab"
               />
 
               <LoginButton
                 src={"/sso.svg"}
                 alt="sso"
                 title={"Sign in with SSO"}
+                provider="sso"
               />
             </div>
           </TabsContent>
@@ -100,17 +108,33 @@ const LoginButton = ({
   src,
   alt,
   title,
+  provider,
 }: {
   src: string;
   alt: string;
   title: string;
+  provider: string;
 }) => {
+  const router = useRouter();
+
+  const handleLogin = async () => {
+    if (provider === "github") {
+      const res = await signIn("github", { redirect: false });
+      if (res?.error) {
+        console.error(res.error);
+      } else {
+        router.push("/dashboard");
+      }
+    }
+    // Add handling for other providers (like bitbucket, azure-devops, etc.) if necessary.
+  };
+
   return (
-    <Button variant={"native"} size={"login"}>
-      <Link href={"/dashboard"} className="flex items-center gap-2">
+    <Button variant={"native"} size={"login"} onClick={handleLogin}>
+      <div className="flex items-center gap-2">
         <Image src={src} alt={alt} width={25} height={25} />
         {title}
-      </Link>
+      </div>
     </Button>
   );
 };
