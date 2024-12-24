@@ -9,7 +9,6 @@ import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
 
-// Define types for Repository and Repos state
 type Repository = {
   id: string;
   name: string;
@@ -21,27 +20,26 @@ type Repository = {
 };
 
 export default function DashboardPage() {
-  const [repos, setRepos] = useState<Repository[]>([]); // Typing the repos state
-  const [searchQuery, setSearchQuery] = useState<string>(""); // Typing the searchQuery state
-  const [filteredRepos, setFilteredRepos] = useState<Repository[]>([]); // Typing the filteredRepos state
+  const [repos, setRepos] = useState<Repository[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filteredRepos, setFilteredRepos] = useState<Repository[]>([]);
 
   useEffect(() => {
-    // Fetch user and repositories
     const fetchData = async () => {
       const session = await getUser();
       // @ts-expect-error: ignore this type
       const fetchedRepos: Repository[] = await getRepositories(
+        // @ts-expect-error: ignore this type
         session.accessToken,
       );
       setRepos(fetchedRepos);
-      setFilteredRepos(fetchedRepos); // Initially show all repos
+      setFilteredRepos(fetchedRepos);
     };
 
     fetchData();
   }, []);
 
   useEffect(() => {
-    // Filter repositories whenever searchQuery changes
     setFilteredRepos(
       repos.filter((repo) =>
         repo.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -53,6 +51,7 @@ export default function DashboardPage() {
     const session = await getUser();
     // @ts-expect-error: ignore this type
     const refreshedRepos: Repository[] = await getRepositories(
+      // @ts-expect-error: ignore this type
       session.accessToken,
     );
     setRepos(refreshedRepos);
