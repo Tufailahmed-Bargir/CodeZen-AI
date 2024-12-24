@@ -126,7 +126,6 @@ const LoginButton = ({
         router.push("/");
       }
     }
-    // Add handling for other providers (like bitbucket, azure-devops, etc.) if necessary.
   };
 
   return (

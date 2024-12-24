@@ -1,40 +1,21 @@
-"use client";
+import LoginPage from "@/components/LoginPage";
+import { NEXT_AUTH_CONFIG } from "@/lib/auth";
 
-import Image from "next/image";
-import LoginForm from "../../components/login-form";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
-  return (
-    <div className="w-screen h-screen fixed grid grid-cols-1 lg:grid-cols-2">
-      {/* Static Images */}
-      <div className="w-full h-full hidden lg:flex items-center justify-center border-r border-[#D8DAE5] bg-[#FFFFFF]">
-        <Image
-          src={"/codeant.svg"}
-          alt="codeant"
-          width={284}
-          height={319}
-          className="fixed bottom-0 left-0"
-        />
+async function getUser() {
+  const session = await getServerSession(NEXT_AUTH_CONFIG);
+  if (session) {
+    return session;
+  }
+}
 
-        <Image
-          src={"/login-card.png"}
-          alt="card"
-          width={474}
-          height={322}
-          className=""
-        />
-      </div>
-
-      {/* Auth Form with Tabs */}
-      <div className="w-full px-4 py-6 bg-[#FAFAFA]">
-        <div className="h-full w-full flex flex-col items-center justify-center gap-8">
-          <LoginForm />
-
-          <span className="text-[14px] lg:text-base">
-            By signing up you agree to the <b>Privacy Policy</b>.
-          </span>
-        </div>
-      </div>
-    </div>
-  );
+export default async function Page() {
+  const session = await getUser();
+  if (session) {
+    redirect("/");
+  } else {
+    return <LoginPage />;
+  }
 }

@@ -1,5 +1,5 @@
 import { NEXT_AUTH_CONFIG } from "@/lib/auth";
-import DashboardPage from "./dashboard/page";
+import DashboardPage from "@/components/Dashboard";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
