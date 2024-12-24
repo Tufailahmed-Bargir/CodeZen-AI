@@ -3,7 +3,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
+  // SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
@@ -13,17 +13,14 @@ const UserDropdown = () => {
     <div>
       <Select>
         <SelectTrigger className="w-full h-[40px]">
-          <SelectValue placeholder="UtkarshDhairyaPanwar" />
+          <SelectValue placeholder="Utkarsh Dhairya Panwar" />
         </SelectTrigger>
 
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Profile</SelectLabel>
-            <SelectItem value="a">Option A</SelectItem>
-            <SelectItem value="b">Option B</SelectItem>
-            <SelectItem value="c">Option C</SelectItem>
-            <SelectItem value="d">Option D</SelectItem>
-            <SelectItem value="e">Option E</SelectItem>
+            <SelectItem value="Tufailahmed">Tufailahmed</SelectItem>
+            <SelectItem value="MOhammed Tayeb">MOhammed Tayeb</SelectItem>
+            <SelectItem value="Bargir">Bargir</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

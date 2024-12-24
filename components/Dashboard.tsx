@@ -1,86 +1,22 @@
+import { getRepositories, getUser } from "@/app/Actions/action";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/sidebar/Sidebar";
-import { NEXT_AUTH_CONFIG } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
-import axios from "axios";
 import Link from "next/link";
-
-type Repository = {
-  id: number;
-  name: string;
-  private: boolean;
-  language: string | null;
-  size: number;
-  updated_at: string;
-  html_url: string;
-};
-
-type UserSession = {
-  accessToken: string;
-};
-
-async function getUser(): Promise<UserSession | null> {
-  const session = await getServerSession(NEXT_AUTH_CONFIG);
-  if (session && session.accessToken) {
-    return session as UserSession;
-  }
-  return null;
-}
-
-async function getRepositories(accessToken: string): Promise<Repository[]> {
-  try {
-    const response = await axios.get("https://api.github.com/user/repos", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    return response.data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      console.error("Error fetching repositories:", error.message);
-      throw new Error(
-        error.response?.data?.message || "Failed to fetch repositories",
-      );
-    }
-    throw error;
-  }
-}
 
 export default async function DashboardPage() {
   const session = await getUser();
-
-  if (!session || !session.accessToken) {
-    redirect("/login");
-  }
-
-  let repos: Repository[] = [];
-  try {
-    repos = await getRepositories(session.accessToken);
-  } catch (error: unknown) {
-    console.error("Error in fetching repositories:", (error as Error).message);
-    return (
-      <div>
-        <h1>Something went wrong!</h1>
-        <p>We couldn&apos;t fetch your repositories. Please try again later.</p>
-      </div>
-    );
-  }
+  //  @ts-expect-error: ignore this type
+  const repos = await getRepositories(session.accessToken);
 
   return (
     <div className="flex items-center h-full w-full">
-      {/* Navbar for smaller screens */}
       <div className="block lg:hidden">
         <Navbar />
       </div>
-
-      {/* Sidebar for larger screens */}
       <div className="hidden lg:flex h-full w-[242px] flex-col fixed inset-y-0 z-50">
         <Sidebar />
       </div>
-
-      {/* Main Content Area */}
       <div className="lg:bg-[#FAFAFA] pt-16 lg:pt-0 lg:pl-[242px] h-full w-full">
         <div className="lg:p-6 h-full lg:max-w-screen-2xl lg:mx-auto w-full">
           <div className="bg-[#fafafa] w-full h-[100vh] md:overflow-scroll">
@@ -149,6 +85,7 @@ function Button({
   );
 }
 
+//  @ts-expect-error: ignore this type
 type TabProps = Repository;
 
 function Tab({
@@ -194,8 +131,8 @@ function Tab({
 
 type InfoItemProps = {
   text: string;
-  // @ts-expect-error:please ignore this error
-  icon: jSX.Element;
+  // @ts-expect-error: ignore this type
+  icon: JSX.Element;
 };
 
 function InfoItem({ text, icon }: InfoItemProps) {
