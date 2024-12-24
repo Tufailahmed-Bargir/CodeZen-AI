@@ -17,27 +17,27 @@ export const routes = [
   {
     icon: Home,
     label: "Repositories",
-    href: "#",
+    href: "/",
   },
   {
     icon: CodeXml,
     label: "AI Code Review",
-    href: "#",
+    href: "/under-development",
   },
   {
     icon: Cloud,
     label: "Cloud Security",
-    href: "#",
+    href: "/under-development",
   },
   {
     icon: BookText,
     label: "How to Use",
-    href: "#",
+    href: "/under-development",
   },
   {
     icon: Settings,
     label: "Settings",
-    href: "#",
+    href: "/under-development",
   },
 ];
 
@@ -50,7 +50,7 @@ export const bottomRoutes = [
   {
     icon: LogOut,
     label: "Logout",
-    href: "#",
+    href: "/",
     onClick: () => signOut(), // Add onClick handler to logout
   },
 ];

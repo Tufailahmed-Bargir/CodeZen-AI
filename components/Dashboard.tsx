@@ -1,36 +1,106 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { getRepositories, getUser } from "@/app/Actions/action";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/sidebar/Sidebar";
+
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
+import Image from "next/image";
 
-export default async function DashboardPage() {
-  const session = await getUser();
-  //  @ts-expect-error: ignore this type
-  const repos = await getRepositories(session.accessToken);
+// Define types for Repository and Repos state
+type Repository = {
+  id: string;
+  name: string;
+  private: boolean;
+  language: string | null;
+  size: number;
+  updated_at: string;
+  html_url: string;
+};
+
+export default function DashboardPage() {
+  const [repos, setRepos] = useState<Repository[]>([]); // Typing the repos state
+  const [searchQuery, setSearchQuery] = useState<string>(""); // Typing the searchQuery state
+  const [filteredRepos, setFilteredRepos] = useState<Repository[]>([]); // Typing the filteredRepos state
+
+  useEffect(() => {
+    // Fetch user and repositories
+    const fetchData = async () => {
+      const session = await getUser();
+      // @ts-expect-error: ignore this type
+      const fetchedRepos: Repository[] = await getRepositories(
+        session.accessToken,
+      );
+      setRepos(fetchedRepos);
+      setFilteredRepos(fetchedRepos); // Initially show all repos
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    // Filter repositories whenever searchQuery changes
+    setFilteredRepos(
+      repos.filter((repo) =>
+        repo.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      ),
+    );
+  }, [searchQuery, repos]);
+
+  const refreshRepositories = async () => {
+    const session = await getUser();
+    // @ts-expect-error: ignore this type
+    const refreshedRepos: Repository[] = await getRepositories(
+      session.accessToken,
+    );
+    setRepos(refreshedRepos);
+    setFilteredRepos(refreshedRepos);
+  };
 
   return (
     <div className="flex items-center h-full w-full">
+      {/* Navbar for smaller screens */}
       <div className="block lg:hidden">
         <Navbar />
       </div>
+
+      {/* Sidebar for larger screens */}
       <div className="hidden lg:flex h-full w-[242px] flex-col fixed inset-y-0 z-50">
         <Sidebar />
       </div>
+
+      {/* Main Content Area */}
       <div className="lg:bg-[#FAFAFA] pt-16 lg:pt-0 lg:pl-[242px] h-full w-full">
         <div className="lg:p-6 h-full lg:max-w-screen-2xl lg:mx-auto w-full">
           <div className="bg-[#fafafa] w-full h-[100vh] md:overflow-scroll">
             <div className="md:ml-[2%] mr-[2%] mt-[2%] rounded-lg flex flex-col gap-1">
               <div className="bg-white pt-5 rounded-md flex flex-col w-full gap-4 md:pl-5 md:pb-5 pl-3 pb-3">
-                <Header totalRepos={repos.length} />
-                <input
-                  type="text"
-                  placeholder="Search repositories"
-                  className="bg-white w-[90%] md:w-[30%] p-2 border-[1px] border-gray-300 rounded-lg"
+                <Header
+                  totalRepos={filteredRepos.length}
+                  onRefresh={refreshRepositories}
                 />
+
+                <div className="relative w-[90%] md:w-[30%]">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search repositories"
+                    className="bg-white w-full p-2 border-[1px] border-gray-300 rounded-lg pl-10"
+                  />
+                  <Image
+                    src="/search.svg"
+                    alt="search"
+                    width={20}
+                    height={20}
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                  />
+                </div>
               </div>
               <div className="flex flex-col justify-center gap-1">
-                {repos.map((repo) => (
+                {filteredRepos.map((repo) => (
                   <Tab key={repo.id} {...repo} />
                 ))}
               </div>
@@ -42,17 +112,27 @@ export default async function DashboardPage() {
   );
 }
 
-function Header({ totalRepos }: { totalRepos: number }) {
+function Header({
+  totalRepos,
+  onRefresh,
+}: {
+  totalRepos: number;
+  onRefresh: () => void;
+}) {
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between">
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-semibold">Repositories</h1>
         <p className="text-gray-500 mt-5">{totalRepos} total repositories</p>
       </div>
-      <div className="flex flex-row p-4 m-4 gap-4 text-md">
-        <Button imgSrc="/refresh.png" text="Refresh All" />
+      <div className="flex flex-row gap-4 m-4 p-4  items-center">
         <Button
-          imgSrc="/plus.png"
+          ImageSrc="/refresh.svg"
+          text="Refresh All"
+          onClick={onRefresh}
+        />
+        <Button
+          ImageSrc="/plus.svg"
           text="Add Repository"
           bgColor="bg-[#1470ef]"
           textColor="text-white"
@@ -63,30 +143,40 @@ function Header({ totalRepos }: { totalRepos: number }) {
 }
 
 type ButtonProps = {
-  imgSrc: string;
+  ImageSrc: string;
   text: string;
+  onClick?: () => void;
   bgColor?: string;
   textColor?: string;
 };
 
 function Button({
-  imgSrc,
+  ImageSrc,
   text,
+  onClick,
   bgColor = "bg-white",
   textColor = "text-black",
 }: ButtonProps) {
   return (
     <button
       className={`flex flex-row gap-2 h-max rounded-lg p-2 ${bgColor} ${textColor} items-center justify-start`}
+      onClick={onClick}
     >
-      <img src={imgSrc} alt="" />
+      <Image src={ImageSrc} alt="this is some image" width={20} height={20} />
       {text}
     </button>
   );
 }
 
-//  @ts-expect-error: ignore this type
-type TabProps = Repository;
+type TabProps = {
+  id: string;
+  name: string;
+  private: boolean;
+  language: string | null;
+  size: number;
+  updated_at: string;
+  html_url: string;
+};
 
 function Tab({
   name,
@@ -118,7 +208,9 @@ function Tab({
         />
         <InfoItem
           text={`${(size / 1024).toFixed(1)} MB`}
-          icon={<img src="/database.png" alt="" />}
+          icon={
+            <Image src="/stack.svg" alt="stack image" width={15} height={15} />
+          }
         />
         <p>
           Updated{" "}

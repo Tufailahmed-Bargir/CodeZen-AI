@@ -19,7 +19,7 @@ const UserDropdown = () => {
         <SelectContent>
           <SelectGroup>
             <SelectItem value="Tufailahmed">Tufailahmed</SelectItem>
-            <SelectItem value="MOhammed Tayeb">MOhammed Tayeb</SelectItem>
+            <SelectItem value="Mohammed Tayeb">Mohammed Tayeb</SelectItem>
             <SelectItem value="Bargir">Bargir</SelectItem>
           </SelectGroup>
         </SelectContent>
