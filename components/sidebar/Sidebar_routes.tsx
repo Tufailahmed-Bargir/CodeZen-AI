@@ -50,7 +50,7 @@ export const bottomRoutes = [
   {
     icon: LogOut,
     label: "Logout",
-    href: "/",
+    href: "/login",
     onClick: () => signOut(), // Add onClick handler to logout
   },
 ];
