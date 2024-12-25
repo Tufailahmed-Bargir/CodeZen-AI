@@ -8,16 +8,7 @@ import Sidebar from "@/components/sidebar/Sidebar";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
-
-type Repository = {
-  id: string;
-  name: string;
-  private: boolean;
-  language: string | null;
-  size: number;
-  updated_at: string;
-  html_url: string;
-};
+import { ButtonProps, InfoItemProps, Repository, TabProps } from "@/lib/types";
 
 export default function DashboardPage() {
   const [repos, setRepos] = useState<Repository[]>([]);
@@ -141,14 +132,6 @@ function Header({
   );
 }
 
-type ButtonProps = {
-  ImageSrc: string;
-  text: string;
-  onClick?: () => void;
-  bgColor?: string;
-  textColor?: string;
-};
-
 function Button({
   ImageSrc,
   text,
@@ -166,16 +149,6 @@ function Button({
     </button>
   );
 }
-
-type TabProps = {
-  id: string;
-  name: string;
-  private: boolean;
-  language: string | null;
-  size: number;
-  updated_at: string;
-  html_url: string;
-};
 
 function Tab({
   name,
@@ -219,12 +192,6 @@ function Tab({
     </div>
   );
 }
-
-type InfoItemProps = {
-  text: string;
-  // @ts-expect-error: ignore this type
-  icon: JSX.Element;
-};
 
 function InfoItem({ text, icon }: InfoItemProps) {
   return (
