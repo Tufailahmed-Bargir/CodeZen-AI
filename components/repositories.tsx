@@ -14,7 +14,7 @@ const repositoriesList = [
     updatedAt: "1 day",
   },
   {
-    title: "codeant-ci-app",
+    title: "CodeZen-Ai-ci-app",
     visibility: "Private",
     techStack: "Javascript",
     size: "5871",

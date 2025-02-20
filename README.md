@@ -1,4 +1,4 @@
-# Full Stack version of CodeAnt-AI Assignment
+# Full Stack version of CodeZen-Ai-AI Assignment
 
 ## Getting Started
 
@@ -25,14 +25,14 @@ pnpm run dev
    To build the Docker image, execute:
 
 ```bash
-docker build -t codeant-ai .
+docker build -t CodeZen-Ai-ai .
 ```
 
 2. **Run the Docker Container**  
    To run the Docker container and expose it on port 3000, use:
 
 ```bash
-docker run -p 3000:3000 codeant-ai
+docker run -p 3000:3000 CodeZen-Ai-ai
 ```
 
 # Desktop version Signin page

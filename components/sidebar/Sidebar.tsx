@@ -8,7 +8,7 @@ export default function Sidebar() {
     <div className="h-full border-r border-[#E9EAEB] bg-[#FFFFFF] flex flex-col overflow-y-auto py-6">
       <div className="px-4 pb-6">
         <Image
-          src={"/codeant-logo.png"}
+          src={"/CodeZen-Ai-logo.png"}
           alt="card"
           width={161}
           height={32}

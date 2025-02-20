@@ -21,7 +21,7 @@ export default function Navbar() {
       <div className="flex items-center justify-between w-full">
         <Link href={"/dashboard"}>
           <Image
-            src={"/codeant-logo.png"}
+            src={"/CodeZen-Ai-logo.png"}
             alt="card"
             width={122}
             height={26}

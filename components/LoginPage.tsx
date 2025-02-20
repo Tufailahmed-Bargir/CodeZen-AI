@@ -9,8 +9,8 @@ export default function LoginPage() {
       {/* Static Images */}
       <div className="w-full h-full hidden lg:flex items-center justify-center border-r border-[#D8DAE5] bg-[#FFFFFF]">
         <Image
-          src={"/codeant.svg"}
-          alt="codeant"
+          src={"/CodeZen-Ai.svg"}
+          alt="CodeZen-Ai"
           width={284}
           height={319}
           className="fixed bottom-0 left-0"

@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CodeAnt AI",
+  title: "CodeZen-AI",
   description: "Assignment for frontend developer intern.",
 };
 
